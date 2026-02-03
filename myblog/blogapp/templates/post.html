@@ -11,8 +11,8 @@
 {% endfor %}
 <h1 class="display-1 text-center text-secondary ">Post your blog</h1>
 
-<form method="POST" action="post_blog"  enctype="multipart/form-data">
-    {%csrf_token%}
+<form method="POST" action="{% url 'post_blog' %}"  enctype="multipart/form-data">
+    {% csrf_token %}
 <div class="container text-white  pb-5">
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title :</label>

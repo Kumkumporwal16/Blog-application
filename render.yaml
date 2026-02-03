@@ -18,6 +18,22 @@ services:
         value: blog-application.onrender.com
       - key: CSRF_TRUSTED_ORIGINS
         value: https://blog-application.onrender.com
+      - key: USE_S3
+        value: "0" # Set to 1 when AWS credentials and bucket are configured
+      - key: AWS_ACCESS_KEY_ID
+        value: ""
+      - key: AWS_SECRET_ACCESS_KEY
+        value: ""
+      - key: AWS_STORAGE_BUCKET_NAME
+        value: ""
+      - key: AWS_S3_REGION_NAME
+        value: ""
+      - key: AWS_S3_ENDPOINT_URL
+        value: ""
+      - key: AWS_S3_CUSTOM_DOMAIN
+        value: ""
+      - key: SERVE_MEDIA
+        value: "1" # Set to 1 to serve media files from MEDIA_ROOT via Django (temporary)
 
 databases:
   - name: blog-application-db

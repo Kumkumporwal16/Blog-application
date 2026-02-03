@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
+import os
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,3 +27,10 @@ urlpatterns = [
     
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+# Temporary: allow serving media files in production when SERVE_MEDIA=1 is set in env.
+# This is for quick fixes only — for production use S3 or a proper static file server.
+if os.getenv('SERVE_MEDIA', '0') == '1':
+    urlpatterns += [
+        path('media/<path:path>', serve, {'document_root': settings.MEDIA_ROOT}),
+    ]
