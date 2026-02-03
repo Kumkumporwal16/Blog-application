@@ -30,7 +30,8 @@ SECRET_KEY = os.getenv(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', '0') == '1'
 
-ALLOWED_HOSTS = []
+# Allow local development hosts by default; environment vars or Render hostname can extend this
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 render_host = os.getenv('RENDER_EXTERNAL_HOSTNAME')
 if render_host:
     ALLOWED_HOSTS.append(render_host)
