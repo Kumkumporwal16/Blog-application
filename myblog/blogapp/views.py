@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from .models import Post,Profile
 from django .contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import ProfileForm
 
 # Create your views here.
 def index(request):
@@ -10,6 +12,42 @@ def index(request):
     context={'posts':post}
     return render(request,template_name="index.html",context=context)
 
+
+@login_required
+def edit_profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            # delete old file if a new one is uploaded
+            if 'image' in request.FILES and profile.image and profile.image.name:
+                try:
+                    profile.image.delete(save=False)
+                except Exception:
+                    pass
+            form.save()
+            messages.success(request, 'Profile image updated successfully.')
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+    return render(request, 'profile_edit.html', {'form': form, 'profile': profile})
+
+
+@login_required
+def delete_profile_photo(request):
+    if request.method == 'POST':
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        if profile.image and profile.image.name and profile.image.name != 'default.jpg':
+            try:
+                profile.image.delete(save=False)
+            except Exception:
+                pass
+        # set to default
+        profile.image = 'default.jpg'
+        profile.save()
+        messages.success(request, 'Profile photo deleted.')
+    return redirect('profile')
 def post(request):
     return render(request,template_name="post.html")
 

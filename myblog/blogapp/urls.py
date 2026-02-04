@@ -23,5 +23,7 @@ path("blog_detail/<int:id>",views.blog_detail,name="blog_detail"),
 path("deletepost/<int:id>",views.deletepost,name="deletepost"),
 path("editpost/<int:id>",views.editpost,name="editpost"),
 path("profile",views.profile,name="profile"),
+path("profile/edit",views.edit_profile,name="edit_profile"),
+path("profile/delete-photo",views.delete_profile_photo,name="delete_profile_photo"),
 #path("profile_view",views.profile_view,name="profile_view")
 ]
